@@ -1,11 +1,12 @@
-# personal_practice
+### personal_practice
 This is only for personal learnning
 
-# entry point
+### entry point
 python3 new.py
 
-# sample data
-<!-- {
+### sample data
+```
+{
     "address": "1698 Lollie Ct,SAN JOSE, CA 95124",
     "area": "1,561 sqft",
     "baths": "2",
@@ -64,4 +65,5 @@ Sleep 46s
     "price": "$1,800,000",
     "time_stamp": "2022-12-13 20:20:34"
 }
-Sleep 38s -->
+Sleep 38s
+```
