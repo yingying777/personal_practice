@@ -2,7 +2,7 @@
 This is only for personal learnning
 
 ### entry point
-python3 new.py
+python3 main.py
 
 ### sample data
 ```

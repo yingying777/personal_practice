@@ -1,16 +1,15 @@
 from urllib.request import Request, urlopen
-from selenium import webdriver
 from bs4 import BeautifulSoup
-from datetime import datetime, timedelta
+from datetime import datetime
 from random import randint
 from time import sleep
-import os
 import json
+import pandas as pd
 
 homepage = "https://www.redfin.com"
 cookie = 'CTK=1erdpj5ra30a3000; indeed_rcc=CTK; _ga=GA1.2.318062999.1665767093; RF="wKGgxUwMHWV1aKM-FTjqiMrjRY8zAroFxocW7SGr9uJASaKa98Jda29TEymDVLcsmEvuK92ca2Dtd5yKNhNcUKG0t6uFyyEKsykPXWNo6I27EaFd4OICD2Bt_Jpgg56XgFvTKtAsucnXD-_j2MlK5Q=="; g_state={"i_l":0}; _gcl_au=1.1.1819277427.1667954667; LOCALE=en; __ssid=f51a95d14a8f1b503272170e69f447a; SOCK="8Jwf6vLmIBNR6GZm3TFUl4fMS9k="; SHOE="op4sqNxfm0CK7bj4F1LJgve3XvO5ylcaidARMwW_TOmV0vyWn6Qki_Y9Gltrmt8fura-DG5GXTwfZteJbFWoKrSb8oD94Hrugx55YGEp0SPzKBmYlMmv-buLJvFGm-MxyE33l_WYczZmkQKP4OWz7wsz"; _cfuvid=KH03VzeydOoPGXgctT8J9y1_xM0e8l00fexeAcZ7Ps4-1670957260730-0-604800000; CSRF=ENKG4ujAV3V6iRCQbsXyUm4C9eV5iyLi; _gid=GA1.2.628011567.1670957263; SHARED_INDEED_CSRF_TOKEN=l6YEvSYrXf5v3UQwcUJXklZDOAE6hc5P; MICRO_CONTENT_CSRF_TOKEN=0Jzs7QpLWeTZAzc1kKbGcYmbBDRUDBLu; LC="co=US"; PPID=eyJraWQiOiJhZjA5OGY5Yi0xYTM0LTRhZjgtYjhkOS04MTVjNDhiZGQ4YjIiLCJ0eXAiOiJKV1QiLCJhbGciOiJFUzI1NiJ9.eyJzdWIiOiI0ZDllMDhiMTM5ODNlZmM4IiwiYXVkIjoiYzFhYjhmMDRmIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImF1dGgiOiJnb29nbGUiLCJjcmVhdGVkIjoxNjY3OTU1MDA1MDAwLCJyZW1fbWUiOnRydWUsImlzcyI6Imh0dHBzOlwvXC9zZWN1cmUuaW5kZWVkLmNvbSIsImV4cCI6MTY3MDk4MDIwNCwiaWF0IjoxNjcwOTc4NDA0LCJsb2dfdHMiOjE2Njc5NTUwMDc2MDIsImVtYWlsIjoieWluZ3lpbmd0YW5nNzc3QGdtYWlsLmNvbSJ9.SwSt1swPlBLO7IsSPsy1NMe4WFF-Bq_5kLHJx5I5mzxYb6IQLFdIzr43CexUXRtiC7Fdkdg5liOXHiNHrHGLzQ; __cf_bm=bXFWIOMo58AGlPWUpbqMhDt43eEXoRzZyU_auQyEpY0-1670978405-0-ASWGTJiuAoVcYLXS2EMjy0mNe4540DgTlXuMSmHQEZ/4H+GljqL26qDVGZAujejIQg8k5lSpMeRCTw3jdnwWBCw=; _gat=1; _gali=sj_e013eca3e0417b99'
 useragent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36'
-zipcode = ['95124', '95118']
+zipcode = ['95124','95118','95123']
 
 def get_soup(url):
     """
@@ -124,8 +123,10 @@ if __name__ == "__main__":
 
     # one zipcode contains less than 100 houses listing so we have to add this extra step
     # to add one more list to summerize overall objects
-    summary = []
+    mydata = []
     for zp in zipcode:
-        summary.append(main(zp))
-    with open("output.txt", "w") as file:
-        file.write(summary)
+        mydata.append(main(zp))
+    
+    # Generate csv file  
+    df = pd.DataFrame.from_dict(mydata)
+    df.to_csv(r'summary.csv', index=False, header=True)
